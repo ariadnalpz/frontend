@@ -63,7 +63,7 @@ select {
   border: none;
   border-radius: 5px;
   background-color: #3a3a3a; /* Mismo fondo que los inputs */
-  color: #ffffff; 
+  color: #aaaaaa; /* Color gris antes de seleccionar */
   font-size: 1rem;
   outline: none;
   -webkit-appearance: none; /* Quita el estilo por defecto en navegadores WebKit */
@@ -72,11 +72,18 @@ select {
   cursor: pointer; /* Indica que es un elemento seleccionable */
 }
 
+/* Cambia el color del texto cuando se selecciona una opción */
+select:focus,
+select:not(:invalid) {
+  color: #ffffff; /* Texto blanco al seleccionar una opción */
+}
+
 /* Estilo para las opciones del select */
 select option {
   background-color: #3a3a3a; /* Fondo oscuro para las opciones */
-  color: #aaaaaa; /* Texto blanco para las opciones */
+  color: #aaaaaa; /* Texto gris para las opciones */
 }
+
 
 /* Botones */
 button {
