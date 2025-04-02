@@ -75,7 +75,7 @@ select {
 /* Estilo para las opciones del select */
 select option {
   background-color: #3a3a3a; /* Fondo oscuro para las opciones */
-  color: #ffffff; /* Texto blanco para las opciones */
+  color: #aaaaaa; /* Texto blanco para las opciones */
 }
 
 /* Botones */
