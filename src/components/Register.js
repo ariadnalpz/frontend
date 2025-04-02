@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // Importa useNavigate para redirigir
+import { useNavigate, Link } from 'react-router-dom'; // Importa Link para el enlace
 import axios from '../api/axios';
 import QRCode from 'qrcode';
 import '../styles.css';
 
 const Register = () => {
-  const navigate = useNavigate(); // Hook para redirigir
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [grado, setGrado] = useState(''); // Estado para el campo Grado
-  const [grupo, setGrupo] = useState(''); // Estado para el campo Grupo
+  const [grado, setGrado] = useState('');
+  const [grupo, setGrupo] = useState('');
   const [qrCodeUrl, setQrCodeUrl] = useState('');
 
   const handleRegister = async (e) => {
@@ -73,6 +73,9 @@ const Register = () => {
             required
           />
           <button type="submit">Registrar</button>
+          <p>
+            ¿Ya tienes cuenta? <Link to="/" style={{ color: '#b20ee9' }}>Inicia sesión aquí</Link>
+          </p>
         </form>
       ) : (
         <div>
