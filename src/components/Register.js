@@ -1,20 +1,23 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // Importa useNavigate para redirigir
 import axios from '../api/axios';
-import QRCode from 'qrcode'; // Importa qrcode
+import QRCode from 'qrcode';
 import '../styles.css';
 
 const Register = () => {
+  const navigate = useNavigate(); // Hook para redirigir
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [qrCodeUrl, setQrCodeUrl] = useState(''); // Estado para la URL del QR
+  const [grado, setGrado] = useState(''); // Estado para el campo Grado
+  const [grupo, setGrupo] = useState(''); // Estado para el campo Grupo
+  const [qrCodeUrl, setQrCodeUrl] = useState('');
 
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('/register', { email, username, password });
+      const res = await axios.post('/register', { email, username, password, grado, grupo });
       if (res.data.message === 'Usuario registrado') {
-        // Genera el código QR con la URL OTP
         const qrCode = await QRCode.toDataURL(res.data.otpauthUrl);
         setQrCodeUrl(qrCode);
         alert('Usuario registrado. Escanea el código QR con Google Authenticator.');
@@ -50,6 +53,25 @@ const Register = () => {
             placeholder="Contraseña"
             required
           />
+          <select
+            value={grado}
+            onChange={(e) => setGrado(e.target.value)}
+            required
+          >
+            <option value="" disabled>Selecciona tu grado</option>
+            <option value="TSU Tecnologías de la Información Área Desarrollo de Software">
+              TSU Tecnologías de la Información Área Desarrollo de Software
+            </option>
+            <option value="Ingeniería en Desarrollo y Gestión de Software">
+              Ingeniería en Desarrollo y Gestión de Software
+            </option>
+          </select>
+          <input
+            value={grupo}
+            onChange={(e) => setGrupo(e.target.value)}
+            placeholder="Grupo"
+            required
+          />
           <button type="submit">Registrar</button>
         </form>
       ) : (
@@ -57,6 +79,7 @@ const Register = () => {
           <p>Escanea este código QR con Google Authenticator:</p>
           <img src={qrCodeUrl} alt="Código QR para Google Authenticator" />
           <p>Una vez escaneado, puedes iniciar sesión con tu código OTP.</p>
+          <button onClick={() => navigate('/')}>Iniciar Sesión</button>
         </div>
       )}
     </div>
