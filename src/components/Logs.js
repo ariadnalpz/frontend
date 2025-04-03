@@ -14,8 +14,7 @@ const Logs = () => {
   useEffect(() => {
     const fetchLogs = async () => {
       try {
-        const res = await axios.get('/logs'); // Consulta los logs desde el backend
-        setLogs(res.data);
+        const res = await axios.get('/logs'); // Consulta los logs 
       } catch (error) {
         console.error('Error al obtener logs:', error);
       }
