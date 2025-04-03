@@ -1,19 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from '../api/axios';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
-import axios from '../api/axios';
 import '../styles.css';
 
-// Registra componentes de Chart.js
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const Logs = () => {
   const navigate = useNavigate();
-  const [logs, setLogs] = useState({ 
-    server1: { info: 0, error: 0 }, 
-    server2: { info: 0, error: 0 } 
-  });
+  const [logs, setLogs] = useState({ server1: { info: 0, error: 0 }, server2: { info: 0, error: 0 } });
 
   useEffect(() => {
     const fetchLogs = async () => {
@@ -27,48 +23,71 @@ const Logs = () => {
     fetchLogs();
   }, []);
 
-  // Datos para la gráfica (estilo minimalista)
-  const chartData = {
+  // Datos para el gráfico (con colores morados para mantener el estilo original)
+  const data = {
     labels: ['Info', 'Error'],
     datasets: [
       {
         label: 'Servidor 1',
-        data: [logs.server1.info, logs.server1.error],
-        backgroundColor: '#4e73df',  // Azul similar al estilo antiguo
-        borderColor: '#2e59d9',
-        borderWidth: 1,
+        data: [logs.server1.info || 0, logs.server1.error || 0],
+        backgroundColor: '#b66dc6', // Morado claro (como el botón original)
+        borderColor: '#8e44ad',    // Morado más oscuro
+        borderWidth: 2,
       },
       {
         label: 'Servidor 2',
-        data: [logs.server2.info, logs.server2.error],
-        backgroundColor: '#1cc88a',  // Verde similar al estilo antiguo
-        borderColor: '#17a673',
-        borderWidth: 1,
+        data: [logs.server2.info || 0, logs.server2.error || 0],
+        backgroundColor: '#ea8bff', // Morado brillante (como los títulos)
+        borderColor: '#b66dc6',     // Morado claro
+        borderWidth: 2,
       },
     ],
   };
 
-  // Opciones de la gráfica (simple, como el estilo antiguo)
-  const chartOptions = {
+  // Opciones del gráfico (ajustadas al estilo original)
+  const options = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
-        position: 'top',
         labels: {
-          color: '#333',  // Texto oscuro como en la versión antigua
+          font: {
+            size: 14,
+          },
+          color: '#ffffff', // Texto blanco
+        },
+      },
+      title: {
+        display: true,
+        text: 'Logs de Actividad por Servidor',
+        color: '#ea8bff', // Morado brillante (como los títulos originales)
+        font: {
+          size: 18,
         },
       },
     },
     scales: {
-      y: {
-        beginAtZero: true,
-        ticks: {
-          color: '#555',
-        },
-      },
       x: {
         ticks: {
-          color: '#555',
+          color: '#ffffff', // Texto blanco
+          font: {
+            size: 12,
+          },
+        },
+        grid: {
+          color: 'rgba(255, 255, 255, 0.1)', // Líneas sutiles
+        },
+      },
+      y: {
+        ticks: {
+          color: '#ffffff', // Texto blanco
+          font: {
+            size: 12,
+          },
+          stepSize: 1,
+        },
+        grid: {
+          color: 'rgba(255, 255, 255, 0.1)', // Líneas sutiles
         },
       },
     },
@@ -81,15 +100,15 @@ const Logs = () => {
 
   return (
     <div className="logs-container">
-      <h2>Logs de Servidores</h2>
-
-      {/* Gráfica (manteniendo funcionalidad nueva) */}
-      <div className="chart-container">
-        <Bar data={chartData} options={chartOptions} />
+      <h2>Logs</h2>
+      
+      {/* Gráfico de barras (nueva adición) */}
+      <div className="chart">
+        <Bar data={data} options={options} />
       </div>
 
-      {/* Tarjetas de información (estilo antiguo) */}
-      <div className="info-cards">
+      {/* Tarjetas de información (estilo original) */}
+      <div className="info-cards-container">
         <div className="info-card">
           <h3>Servidor 1</h3>
           <p><strong>Info:</strong> {logs.server1.info}</p>
@@ -102,10 +121,8 @@ const Logs = () => {
         </div>
       </div>
 
-      {/* Botón de cerrar sesión (estilo antiguo) */}
-      <button className="logout-btn" onClick={handleLogout}>
-        Cerrar Sesión
-      </button>
+      {/* Botón de cerrar sesión (estilo original) */}
+      <button onClick={handleLogout}>Cerrar Sesión</button>
     </div>
   );
 };
