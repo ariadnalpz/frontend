@@ -121,7 +121,7 @@ const Logs = () => {
       </div>
 
       {/* Botón de regresar */}
-      <button onClick={handleReturn}>Regresar</button>
+      <button onClick={handleReturn}>Volver</button>
     </div>
   );
 };
