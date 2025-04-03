@@ -93,8 +93,9 @@ const Logs = () => {
     },
   };
 
+  // Cambiar la función para redirigir a Home en lugar de cerrar sesión
   const handleReturn = () => {
-    navigate('/home');
+    navigate('/home'); // Asegúrate de que la ruta coincida con la definida en tu router para Home
   };
 
   return (
@@ -120,8 +121,8 @@ const Logs = () => {
         </div>
       </div>
 
-      {/* Botón de regresar */}
-      <button onClick={handleReturn}>Volver</button>
+      {/* Botón cambiado a "Regresar" */}
+      <button onClick={handleReturn}>Regresar</button>
     </div>
   );
 };
