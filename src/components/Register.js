@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom'; // Importa Link para el enlace
+import { useNavigate, Link } from 'react-router-dom';
 import axios from '../api/axios';
 import QRCode from 'qrcode';
 import '../styles.css';
@@ -24,7 +24,7 @@ const Register = () => {
       }
     } catch (error) {
       console.error('Error en registro:', error);
-      alert('Error al registrar. Revisa la consola para más detalles.');
+      alert('Error al registrar. Intenta nuevamente.');
     }
   };
 

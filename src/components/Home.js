@@ -21,7 +21,7 @@ const Home = () => {
         setInfo(res.data);
       } catch (error) {
         console.error('Error al obtener info:', error);
-        alert('Error al cargar la información. Revisa la consola para más detalles.');
+        alert('Error al cargar la información. Intenta nuevamente.');
         if (error.response?.status === 401) {
           handleLogout();
         }

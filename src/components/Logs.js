@@ -23,28 +23,27 @@ const Logs = () => {
     fetchLogs();
   }, []);
 
-  // Datos para el gráfico (con colores morados para mantener el estilo original)
+  // Datos para el gráfico
   const data = {
     labels: ['Info', 'Error'],
     datasets: [
       {
         label: 'Servidor 1',
         data: [logs.server1.info || 0, logs.server1.error || 0],
-        backgroundColor: '#b66dc6', // Morado claro (como el botón original)
-        borderColor: '#8e44ad',    // Morado más oscuro
+        backgroundColor: '#b66dc6',
+        borderColor: '#8e44ad',
         borderWidth: 2,
       },
       {
         label: 'Servidor 2',
         data: [logs.server2.info || 0, logs.server2.error || 0],
-        backgroundColor: '#ea8bff', // Morado brillante (como los títulos)
-        borderColor: '#b66dc6',     // Morado claro
+        backgroundColor: '#ff7eb9',
+        borderColor: '#ff5d9e',
         borderWidth: 2,
       },
     ],
   };
 
-  // Opciones del gráfico (ajustadas al estilo original)
   const options = {
     responsive: true,
     maintainAspectRatio: false,
@@ -54,13 +53,13 @@ const Logs = () => {
           font: {
             size: 14,
           },
-          color: '#ffffff', // Texto blanco
+          color: '#ffffff',
         },
       },
       title: {
         display: true,
         text: 'Logs de Actividad por Servidor',
-        color: '#ea8bff', // Morado brillante (como los títulos originales)
+        color: '#ea8bff',
         font: {
           size: 18,
         },
@@ -69,59 +68,57 @@ const Logs = () => {
     scales: {
       x: {
         ticks: {
-          color: '#ffffff', // Texto blanco
+          color: '#ffffff',
           font: {
             size: 12,
           },
         },
         grid: {
-          color: 'rgba(255, 255, 255, 0.1)', // Líneas sutiles
+          color: 'rgba(255, 255, 255, 0.1)',
         },
       },
       y: {
         ticks: {
-          color: '#ffffff', // Texto blanco
+          color: '#ffffff',
           font: {
             size: 12,
           },
           stepSize: 1,
         },
         grid: {
-          color: 'rgba(255, 255, 255, 0.1)', // Líneas sutiles
+          color: 'rgba(255, 255, 255, 0.1)',
         },
       },
     },
   };
 
-  // Cambiar la función para redirigir a Home en lugar de cerrar sesión
   const handleReturn = () => {
-    navigate('/home'); // Asegúrate de que la ruta coincida con la definida en tu router para Home
+    navigate('/home');
   };
 
   return (
     <div className="logs-container">
       <h2>Logs</h2>
       
-      {/* Gráfico de barras (nueva adición) */}
+      {/* Gráfico de barras */}
       <div className="chart">
         <Bar data={data} options={options} />
       </div>
 
-      {/* Tarjetas de información (estilo original) */}
-      <div className="info-cards-container">
-        <div className="info-card">
+      {/* Tarjetas */}
+      <div className="compact-cards-container">
+        <div className="compact-card">
           <h3>Servidor 1</h3>
           <p><strong>Info:</strong> {logs.server1.info}</p>
           <p><strong>Error:</strong> {logs.server1.error}</p>
         </div>
-        <div className="info-card">
+        <div className="compact-card">
           <h3>Servidor 2</h3>
           <p><strong>Info:</strong> {logs.server2.info}</p>
           <p><strong>Error:</strong> {logs.server2.error}</p>
         </div>
       </div>
 
-      {/* Botón cambiado a "Regresar" */}
       <button onClick={handleReturn}>Regresar</button>
     </div>
   );

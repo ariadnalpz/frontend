@@ -18,7 +18,7 @@ const Login = () => {
       }
     } catch (error) {
       console.error('Error en login:', error);
-      alert('Error al iniciar sesión. Revisa la consola para más detalles.');
+      alert('Error al iniciar sesión. Intenta nuevamente.');
     }
   };
 
@@ -30,7 +30,7 @@ const Login = () => {
       window.location.href = '/home';
     } catch (error) {
       console.error('Error en OTP:', error);
-      alert('Error al verificar OTP. Revisa la consola para más detalles.');
+      alert('Error al verificar OTP. Intentanuevamente.');
     }
   };
 
