@@ -93,9 +93,8 @@ const Logs = () => {
     },
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    navigate('/');
+  const handleReturn = () => {
+    navigate('/home');
   };
 
   return (
@@ -121,8 +120,8 @@ const Logs = () => {
         </div>
       </div>
 
-      {/* Botón de cerrar sesión (estilo original) */}
-      <button onClick={handleLogout}>Cerrar Sesión</button>
+      {/* Botón de regresar */}
+      <button onClick={handleReturn}>Regresar</button>
     </div>
   );
 };
