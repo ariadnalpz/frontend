@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: 'https://servidor1-r4cq.onrender.com/api', 
+  baseURL: 'https://servidor2-6ldn.onrender.com', 
 });
 
 // Interceptor para agregar el token a las solicitudes
