@@ -1,32 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Importa useNavigate
+import { useNavigate } from 'react-router-dom';
 import { Bar } from 'react-chartjs-2';
-import { db, collection, getDocs } from '../config/firebase';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
+import axios from '../api/axios'; // Importa axios para hacer solicitudes al backend
 import '../styles.css';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const Logs = () => {
-  const navigate = useNavigate(); // Hook para navegar
-  const [logs, setLogs] = useState({ server1: {}, server2: {} });
+  const navigate = useNavigate();
+  const [logs, setLogs] = useState({ server1: { info: 0, error: 0 }, server2: { info: 0, error: 0 } });
 
   useEffect(() => {
     const fetchLogs = async () => {
       try {
-        const logsRef = collection(db, 'logs');
-        const snapshot = await getDocs(logsRef);
-
-        const server1Logs = { info: 0, error: 0 };
-        const server2Logs = { info: 0, error: 0 };
-
-        snapshot.forEach(doc => {
-          const { server, level } = doc.data();
-          if (server === 'Servidor 1') server1Logs[level]++;
-          else if (server === 'Servidor 2') server2Logs[level]++;
-        });
-
-        setLogs({ server1: server1Logs, server2: server2Logs });
+        const res = await axios.get('/logs'); // Consulta los logs desde el backend
+        setLogs(res.data);
       } catch (error) {
         console.error('Error al obtener logs:', error);
       }
@@ -102,13 +91,21 @@ const Logs = () => {
     },
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/');
+  };
+
   return (
     <div className="logs-container">
       <h2>Logs de Servidores</h2>
       <div className="chart">
         <Bar data={data} options={options} />
       </div>
-      <button onClick={() => navigate('/home')}>Regresar a Home</button>
+      <div className="button-group">
+        <button onClick={() => navigate('/home')}>Regresar a Home</button>
+        <button onClick={handleLogout}>Cerrar Sesión</button>
+      </div>
     </div>
   );
 };
