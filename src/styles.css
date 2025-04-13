@@ -68,6 +68,18 @@ form {
   gap: var(--gap-elements);
 }
 
+.form-group {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.form-group label {
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--text-light);
+}
+
 input,
 select,
 button {
@@ -197,4 +209,26 @@ button:hover {
 
 .logs-container {
   max-width: 800px;
+}
+
+/* Mensajes de éxito y error */
+.success-message {
+  color: #00ff00; /* Verde brillante para éxito */
+  font-size: 0.9rem;
+  margin: 0.5rem 0;
+  text-align: center;
+}
+
+.error-message {
+  color: #ff3333; /* Rojo brillante para error */
+  font-size: 0.9rem;
+  margin: 0.5rem 0;
+  text-align: center;
+}
+
+/* Estilo para etiquetas de formularios */
+label {
+  color: var(--text-light);
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
 }

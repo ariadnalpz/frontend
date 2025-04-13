@@ -42,7 +42,7 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container">
+    <div className="container">
       <h2>Iniciar Sesión</h2>
       {step === 1 ? (
         <form onSubmit={handleLogin}>
@@ -53,6 +53,7 @@ const Login = () => {
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              placeholder="Ingresa tu correo"
               required
             />
           </div>
@@ -63,12 +64,15 @@ const Login = () => {
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              placeholder="Ingresa tu contraseña"
               required
             />
           </div>
           {message && <p className="success-message">{message}</p>}
           {error && <p className="error-message">{error}</p>}
-          <button type="submit">Iniciar Sesión</button>
+          <div className="button-group">
+            <button type="submit">Iniciar Sesión</button>
+          </div>
           <p>
             ¿No tienes una cuenta? <Link to="/register">Regístrate aquí</Link>
           </p>
@@ -85,12 +89,15 @@ const Login = () => {
               id="otp"
               value={otp}
               onChange={(e) => setOtp(e.target.value)}
+              placeholder="Ingresa el código OTP"
               required
             />
           </div>
           {message && <p className="success-message">{message}</p>}
           {error && <p className="error-message">{error}</p>}
-          <button type="submit">Verificar OTP</button>
+          <div className="button-group">
+            <button type="submit">Verificar OTP</button>
+          </div>
         </form>
       )}
     </div>

@@ -4,7 +4,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Home from './components/Home';
 import Logs from './components/Logs';
-import RecoverPassword from './components/RecoverPassword'; // Importa el nuevo componente
+import RecoverPassword from './components/RecoverPassword';
 import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
 
@@ -14,7 +14,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/recover-password" element={<RecoverPassword />} /> {/* Nueva ruta */}
+        <Route path="/recover-password" element={<RecoverPassword />} />
         <Route
           path="/home"
           element={
