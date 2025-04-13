@@ -19,8 +19,8 @@ const addInterceptors = (instance, serverName) => {
       data: config.data,
     });
 
-    // No agregar el token para las rutas de recuperación de contraseña
-    const publicRoutes = ['/recover-password', '/reset-password', '/login', '/verify-otp', '/register'];
+    // No agregar el token para las rutas públicas
+    const publicRoutes = ['/recover-password', '/reset-password', '/login', '/verify-otp', '/register', '/getInfo', '/logs'];
     const isPublicRoute = publicRoutes.some(route => config.url.includes(route));
 
     if (!isPublicRoute) {
@@ -50,8 +50,11 @@ const addInterceptors = (instance, serverName) => {
         message: error.message,
       });
 
-      // Manejar error 401 (token inválido) para rutas protegidas
-      if (error.response?.status === 401 && !window.location.pathname.includes('/recover-password')) {
+      // No redirigir en caso de 401 para rutas públicas
+      const publicRoutes = ['/recover-password', '/reset-password', '/login', '/verify-otp', '/register', '/getInfo', '/logs'];
+      const isPublicRoute = publicRoutes.some(route => error.config?.url.includes(route));
+
+      if (error.response?.status === 401 && !isPublicRoute) {
         localStorage.removeItem('token');
         window.location.href = '/';
       }
