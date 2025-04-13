@@ -1,71 +1,49 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from '../api/axios';
 import '../styles.css';
 
 const Home = () => {
-  const navigate = useNavigate();
-  const [info, setInfo] = useState({ 
-    nodeVersion: '', 
-    student: { 
-      name: '', 
-      grade: '', 
-      group: '' 
-    } 
-  });
+  const [info, setInfo] = useState(null);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const fetchInfo = async () => {
       try {
         const res = await axios.get('/getInfo');
         setInfo(res.data);
-      } catch (error) {
-        console.error('Error al obtener info:', error);
-        alert('Error al cargar la información. Intenta nuevamente.');
-        if (error.response?.status === 401) {
-          handleLogout();
-        }
+      } catch (err) {
+        setError(err.response?.data?.error || 'Error al obtener la información');
       }
     };
+
     fetchInfo();
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    navigate('/');
-  };
-
   return (
     <div className="home-container">
-      <h2>¡Bienvenido!</h2>
-      
-      <div className="info-card">
-        <h3>Datos del Alumno</h3>
-        <p><strong>Nombre:</strong> {info.student.name || 'Cargando...'}</p>
-        <p><strong>Grado:</strong> {info.student.grade || 'Cargando...'}</p>
-        <p><strong>Grupo:</strong> {info.student.group || 'Cargando...'}</p>
-        <p><strong>Docente:</strong> Emmanuel Martínez Hernández</p>
-      </div>
-
-      <div className="info-card">
-        <h3>Información del Servidor</h3>
-        <p><strong>Versión de Node.js:</strong> {info.nodeVersion || 'Cargando...'}</p>
-      </div>
-
-      <div className="description-card">
-        <h3>Descripción del Proyecto</h3>
-        <p>
-          Esta aplicación permite registrar y autenticar usuarios mediante autenticación 
-          de dos factores (2FA) con Google Authenticator, utilizando códigos OTP. 
-          Muestra logs de actividad en dos servidores: uno con Rate Limit para limitar 
-          solicitudes y otro sin restricciones, permitiendo comparar su comportamiento.
-        </p>
-      </div>
-
-      <div className="button-group">
-        <button onClick={() => navigate('/logs')}>Ver Logs</button>
-        <button onClick={handleLogout}>Cerrar Sesión</button>
-      </div>
+      <h2>Bienvenido(a)</h2>
+      {error && <p className="error-message">{error}</p>}
+      {info ? (
+        <>
+          <div className="info-card">
+            <h3>Información del Servidor</h3>
+            <p><strong>Versión de Node.js:</strong> {info.nodeVersion}</p>
+            <p><strong>Estudiante:</strong> {info.student.name}</p>
+            <p><strong>Grupo:</strong> {info.student.group}</p>
+          </div>
+          <div className="button-group">
+            <button onClick={() => window.location.href = '/logs'}>Ver Logs</button>
+            <button onClick={() => {
+              localStorage.removeItem('token');
+              window.location.href = '/';
+            }}>
+              Cerrar Sesión
+            </button>
+          </div>
+        </>
+      ) : (
+        !error && <p>Cargando información...</p>
+      )}
     </div>
   );
 };
