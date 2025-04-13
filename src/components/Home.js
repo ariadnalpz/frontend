@@ -27,13 +27,14 @@ const Home = () => {
   return (
     <div className="home-container">
       <h2>Bienvenido(a)</h2>
+      <p className="info-message">Este texto debería ser visible siempre</p> {/* Prueba estática */}
       {error && <p className="error-message">{error}</p>}
-      {info ? (
+      {info && info.student ? (
         <div className="info-card">
           <h3>Información del Servidor</h3>
           <p><strong>Versión de Node.js:</strong> {info.nodeVersion || 'No disponible'}</p>
-          <p><strong>Estudiante:</strong> {info.student?.name || 'No disponible'}</p>
-          <p><strong>Grupo:</strong> {info.student?.group || 'No disponible'}</p>
+          <p><strong>Usuario:</strong> {info.student.name || 'No disponible'}</p>
+          <p><strong>Grupo:</strong> {info.student.group || 'No disponible'}</p>
           <div className="button-group">
             <button onClick={() => window.location.href = '/logs'}>Ver Logs</button>
             <button

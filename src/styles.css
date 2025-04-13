@@ -43,6 +43,7 @@ body {
   max-width: 900px;
   text-align: center;
   margin: 2rem auto;
+  min-height: 400px; /* Aseguramos que el contenedor tenga altura mínima */
 }
 
 .container {
@@ -125,6 +126,7 @@ button {
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s;
+  padding: 0.75rem 1.5rem; /* Aseguramos que los botones tengan tamaño adecuado */
 }
 
 button:hover {
@@ -137,12 +139,14 @@ button:hover {
   display: flex;
   flex-direction: column;
   gap: var(--gap-section);
+  align-items: center; /* Centramos los elementos internos */
 }
 
 .button-group {
   display: flex;
   justify-content: center;
   gap: var(--gap-elements);
+  margin-top: 1rem; /* Espacio superior para los botones */
 }
 
 /* Tarjetas */
@@ -156,6 +160,7 @@ button:hover {
   border: 1px solid var(--primary);
   text-align: left;
   width: 100%;
+  max-width: 500px; /* Limitamos el ancho de la tarjeta para mejor legibilidad */
   box-sizing: border-box;
 }
 
@@ -182,7 +187,7 @@ button:hover {
 .description-card p,
 .compact-card p {
   margin: 0.5rem 0;
-  font-size: 0.9rem;
+  font-size: 1rem; /* Aumentamos el tamaño para mejor legibilidad */
   color: var(--text-light);
   line-height: 1.5;
 }
@@ -214,21 +219,21 @@ button:hover {
 /* Mensajes de éxito y error */
 .success-message {
   color: #00ff00; /* Verde brillante para éxito */
-  font-size: 0.9rem;
+  font-size: 1rem;
   margin: 0.5rem 0;
   text-align: center;
 }
 
 .error-message {
   color: #ff3333; /* Rojo brillante para error */
-  font-size: 0.9rem;
+  font-size: 1rem;
   margin: 0.5rem 0;
   text-align: center;
 }
 
 .info-message {
   color: var(--text-muted); /* Color grisáceo para información */
-  font-size: 0.9rem;
+  font-size: 1rem;
   margin: 0.5rem 0;
   text-align: center;
 }
@@ -238,87 +243,4 @@ label {
   color: var(--text-light);
   font-size: 0.9rem;
   margin-bottom: 0.5rem;
-}
-
-/* Contenedores */
-.home-container {
-  background-color: var(--container-bg);
-  padding: var(--padding-container);
-  border-radius: var(--border-radius);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  width: 100%;
-  max-width: 900px;
-  text-align: center;
-  margin: 2rem auto;
-  min-height: 300px; /* Aseguramos que el contenedor tenga altura mínima */
-}
-
-/* Títulos */
-h2 {
-  color: var(--primary);
-  margin-bottom: 1.5rem;
-}
-
-h3 {
-  color: var(--primary);
-  margin-bottom: 1rem;
-  font-size: 1.2rem;
-}
-
-/* Tarjetas */
-.info-card {
-  background-color: var(--card-bg);
-  padding: var(--padding-card);
-  border-radius: var(--border-radius);
-  border: 1px solid var(--primary);
-  text-align: left;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-/* Textos */
-.info-card p {
-  margin: 0.5rem 0;
-  font-size: 0.9rem;
-  color: var(--text-light);
-  line-height: 1.5;
-}
-
-.info-card p strong {
-  color: var(--primary);
-}
-
-/* Botones */
-.button-group {
-  display: flex;
-  justify-content: center;
-  gap: var(--gap-elements);
-  margin-top: 1rem;
-}
-
-button {
-  background-color: var(--primary);
-  color: var(--text-dark);
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-button:hover {
-  background-color: var(--primary-hover);
-}
-
-/* Mensajes */
-.info-message {
-  color: var(--text-muted); /* Color grisáceo para información */
-  font-size: 0.9rem;
-  margin: 0.5rem 0;
-  text-align: center;
-}
-
-.error-message {
-  color: #ff3333; /* Rojo brillante para error */
-  font-size: 0.9rem;
-  margin: 0.5rem 0;
-  text-align: center;
 }
