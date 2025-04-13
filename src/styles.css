@@ -226,6 +226,13 @@ button:hover {
   text-align: center;
 }
 
+.info-message {
+  color: var(--text-muted); /* Color grisáceo para información */
+  font-size: 0.9rem;
+  margin: 0.5rem 0;
+  text-align: center;
+}
+
 /* Estilo para etiquetas de formularios */
 label {
   color: var(--text-light);

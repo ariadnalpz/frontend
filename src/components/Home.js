@@ -10,8 +10,10 @@ const Home = () => {
     const fetchInfo = async () => {
       try {
         const res = await axios.get('/getInfo');
+        console.log('Respuesta de /getInfo:', res.data); // Para depurar
         setInfo(res.data);
       } catch (err) {
+        console.error('Error al obtener /getInfo:', err); // Para depurar
         setError(err.response?.data?.error || 'Error al obtener la información');
       }
     };
@@ -33,16 +35,18 @@ const Home = () => {
           </div>
           <div className="button-group">
             <button onClick={() => window.location.href = '/logs'}>Ver Logs</button>
-            <button onClick={() => {
-              localStorage.removeItem('token');
-              window.location.href = '/';
-            }}>
+            <button
+              onClick={() => {
+                localStorage.removeItem('token');
+                window.location.href = '/';
+              }}
+            >
               Cerrar Sesión
             </button>
           </div>
         </>
       ) : (
-        !error && <p>Cargando información...</p>
+        !error && <p className="info-message">Cargando información...</p>
       )}
     </div>
   );

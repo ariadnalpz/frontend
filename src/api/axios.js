@@ -17,16 +17,21 @@ const addInterceptors = (instance, serverName) => {
       method: config.method?.toUpperCase(),
       url: config.url,
       data: config.data,
+      headers: config.headers, // Para depurar los headers
     });
 
     // No agregar el token para las rutas públicas
-    const publicRoutes = ['/recover-password', '/reset-password', '/login', '/verify-otp', '/register', '/getInfo', '/logs'];
+    const publicRoutes = ['/recover-password', '/reset-password', '/login', '/verify-otp', '/register'];
     const isPublicRoute = publicRoutes.some(route => config.url.includes(route));
 
     if (!isPublicRoute) {
       const token = localStorage.getItem('token');
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
+      } else {
+        console.warn(`[${timestamp}] ${serverName} Warning: No token found in localStorage for protected route`, {
+          url: config.url,
+        });
       }
     }
 
@@ -51,10 +56,11 @@ const addInterceptors = (instance, serverName) => {
       });
 
       // No redirigir en caso de 401 para rutas públicas
-      const publicRoutes = ['/recover-password', '/reset-password', '/login', '/verify-otp', '/register', '/getInfo', '/logs'];
+      const publicRoutes = ['/recover-password', '/reset-password', '/login', '/verify-otp', '/register'];
       const isPublicRoute = publicRoutes.some(route => error.config?.url.includes(route));
 
       if (error.response?.status === 401 && !isPublicRoute) {
+        console.warn(`[${timestamp}] ${serverName} Redirecting to login due to 401 error`);
         localStorage.removeItem('token');
         window.location.href = '/';
       }
