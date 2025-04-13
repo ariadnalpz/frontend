@@ -13,7 +13,7 @@ const Home = () => {
         console.log('Respuesta de /getInfo:', res.data); // Para depurar
         setInfo(res.data);
       } catch (err) {
-        console.error('Error al obtener /getInfo:', err); // Para depurar
+        console.error('Error al obtener /getInfo:', err);
         setError(err.response?.data?.error || 'Error al obtener la información');
       }
     };
@@ -21,18 +21,19 @@ const Home = () => {
     fetchInfo();
   }, []);
 
+  // Log para depurar el renderizado
+  console.log('Renderizando Home - Estado:', { info, error });
+
   return (
     <div className="home-container">
       <h2>Bienvenido(a)</h2>
       {error && <p className="error-message">{error}</p>}
       {info ? (
-        <>
-          <div className="info-card">
-            <h3>Información del Servidor</h3>
-            <p><strong>Versión de Node.js:</strong> {info.nodeVersion}</p>
-            <p><strong>Estudiante:</strong> {info.student.name}</p>
-            <p><strong>Grupo:</strong> {info.student.group}</p>
-          </div>
+        <div className="info-card">
+          <h3>Información del Servidor</h3>
+          <p><strong>Versión de Node.js:</strong> {info.nodeVersion || 'No disponible'}</p>
+          <p><strong>Estudiante:</strong> {info.student?.name || 'No disponible'}</p>
+          <p><strong>Grupo:</strong> {info.student?.group || 'No disponible'}</p>
           <div className="button-group">
             <button onClick={() => window.location.href = '/logs'}>Ver Logs</button>
             <button
@@ -44,9 +45,9 @@ const Home = () => {
               Cerrar Sesión
             </button>
           </div>
-        </>
+        </div>
       ) : (
-        !error && <p className="info-message">Cargando información...</p>
+        <p className="info-message">{error ? 'Error al cargar los datos' : 'Cargando información...'}</p>
       )}
     </div>
   );

@@ -239,3 +239,86 @@ label {
   font-size: 0.9rem;
   margin-bottom: 0.5rem;
 }
+
+/* Contenedores */
+.home-container {
+  background-color: var(--container-bg);
+  padding: var(--padding-container);
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: 900px;
+  text-align: center;
+  margin: 2rem auto;
+  min-height: 300px; /* Aseguramos que el contenedor tenga altura mínima */
+}
+
+/* Títulos */
+h2 {
+  color: var(--primary);
+  margin-bottom: 1.5rem;
+}
+
+h3 {
+  color: var(--primary);
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+/* Tarjetas */
+.info-card {
+  background-color: var(--card-bg);
+  padding: var(--padding-card);
+  border-radius: var(--border-radius);
+  border: 1px solid var(--primary);
+  text-align: left;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Textos */
+.info-card p {
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+  color: var(--text-light);
+  line-height: 1.5;
+}
+
+.info-card p strong {
+  color: var(--primary);
+}
+
+/* Botones */
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: var(--gap-elements);
+  margin-top: 1rem;
+}
+
+button {
+  background-color: var(--primary);
+  color: var(--text-dark);
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: var(--primary-hover);
+}
+
+/* Mensajes */
+.info-message {
+  color: var(--text-muted); /* Color grisáceo para información */
+  font-size: 0.9rem;
+  margin: 0.5rem 0;
+  text-align: center;
+}
+
+.error-message {
+  color: #ff3333; /* Rojo brillante para error */
+  font-size: 0.9rem;
+  margin: 0.5rem 0;
+  text-align: center;
+}
