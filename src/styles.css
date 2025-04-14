@@ -213,14 +213,14 @@ button:hover {
 
 /* Mensajes de éxito y error */
 .success-message {
-  color: #00ff00;
+  color: #00ff00; /* Verde brillante para éxito */
   font-size: 0.9rem;
   margin: 0.5rem 0;
   text-align: center;
 }
 
 .error-message {
-  color: #ff3333;
+  color: #ff3333; /* Rojo brillante para error */
   font-size: 0.9rem;
   margin: 0.5rem 0;
   text-align: center;
@@ -231,10 +231,4 @@ label {
   color: var(--text-light);
   font-size: 0.9rem;
   margin-bottom: 0.5rem;
-}
-
-/* Asegurar visibilidad del contenido */
-.home-container,
-.logs-container {
-  color: var(--text-light) !important; /* Forzar color de texto visible */
 }

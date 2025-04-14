@@ -41,7 +41,7 @@ const RecoverPassword = () => {
   };
 
   return (
-    <div className="login-container">
+    <div className="container">
       <h2>Recuperar Contraseña</h2>
 
       {step === 1 ? (
@@ -53,15 +53,18 @@ const RecoverPassword = () => {
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              placeholder="Ingresa tu correo"
               required
             />
           </div>
           {message && <p className="success-message">{message}</p>}
           {error && <p className="error-message">{error}</p>}
-          <button type="submit">Solicitar Recuperación</button>
-          <button type="button" onClick={() => navigate('/')}>
-            Regresar al Login
-          </button>
+          <div className="button-group">
+            <button type="submit">Solicitar Recuperación</button>
+            <button type="button" onClick={() => navigate('/')}>
+              Regresar al Login
+            </button>
+          </div>
         </form>
       ) : (
         <form onSubmit={handleResetPassword}>
@@ -72,6 +75,7 @@ const RecoverPassword = () => {
               id="otp"
               value={otp}
               onChange={(e) => setOtp(e.target.value)}
+              placeholder="Ingresa el código OTP"
               required
             />
           </div>
@@ -82,15 +86,18 @@ const RecoverPassword = () => {
               id="newPassword"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
+              placeholder="Ingresa tu nueva contraseña"
               required
             />
           </div>
           {message && <p className="success-message">{message}</p>}
           {error && <p className="error-message">{error}</p>}
-          <button type="submit">Restablecer Contraseña</button>
-          <button type="button" onClick={() => navigate('/')}>
-            Regresar al Login
-          </button>
+          <div className="button-group">
+            <button type="submit">Restablecer Contraseña</button>
+            <button type="button" onClick={() => navigate('/')}>
+              Regresar al Login
+            </button>
+          </div>
         </form>
       )}
     </div>

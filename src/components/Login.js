@@ -22,7 +22,7 @@ const Login = () => {
       setMessage(res.data.message);
       setStep(2);
     } catch (err) {
-      setError(err.response?.data?.error || 'Error al iniciar sesión');
+      setError(err.response.data.error || 'Error al iniciar sesión');
     }
   };
 
@@ -33,12 +33,11 @@ const Login = () => {
 
     try {
       const res = await axios.post('/verify-otp', { email, otp });
-      console.log('Token recibido:', res.data.token); // Depuración
       localStorage.setItem('token', res.data.token);
       setMessage('Inicio de sesión exitoso');
       setTimeout(() => navigate('/home'), 1000);
     } catch (err) {
-      setError(err.response?.data?.error || 'Error al verificar OTP');
+      setError(err.response.data.error || 'Error al verificar OTP');
     }
   };
 
