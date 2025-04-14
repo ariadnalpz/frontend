@@ -1,153 +1,112 @@
 import React, { useEffect, useState } from 'react';
-import { Bar } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
+import { useNavigate } from 'react-router-dom';
+import { Bar, Doughnut, Pie } from 'react-chartjs-2';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement } from 'chart.js';
 import axios from '../api/axios';
 import '../styles.css';
 
-// Registrar los componentes necesarios para Chart.js
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+// Registrar los componentes necesarios de Chart.js
+ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement);
 
 const Logs = () => {
-  const [logs, setLogs] = useState({ server1: { info: 0, error: 0 }, server2: { info: 0, error: 0 } });
+  const navigate = useNavigate();
+  const [logs, setLogs] = useState({
+    server1: { info: 0, error: 0 },
+    server2: { info: 0, error: 0 },
+  });
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
   useEffect(() => {
     const fetchLogs = async () => {
       try {
-        const res = await axios.get('/logs');
-        setLogs(res.data);
+        const response = await axios.get('/logs');
+        setLogs(response.data);
+        setLoading(false);
       } catch (err) {
-        setError(err.response?.data?.error || 'Error al obtener los logs');
+        setError('Error al cargar los logs');
+        setLoading(false);
       }
     };
 
     fetchLogs();
   }, []);
 
-  // Datos para la gráfica de Servidor 1
-  const server1Data = {
+  // Datos para la gráfica de barras
+  const barData = {
+    labels: ['Servidor 1', 'Servidor 2'],
+    datasets: [
+      {
+        label: 'Logs de Info',
+        data: [logs.server1.info, logs.server2.info],
+        backgroundColor: '#ea8bff',
+      },
+      {
+        label: 'Logs de Error',
+        data: [logs.server1.error, logs.server2.error],
+        backgroundColor: '#ff3333',
+      },
+    ],
+  };
+
+  // Datos para la gráfica de dona (Servidor 1)
+  const doughnutData = {
     labels: ['Info', 'Error'],
     datasets: [
       {
         label: 'Servidor 1',
         data: [logs.server1.info, logs.server1.error],
-        backgroundColor: ['#00ff00', '#ff3333'],
-        borderColor: ['#00cc00', '#cc0000'],
-        borderWidth: 1,
+        backgroundColor: ['#ea8bff', '#ff3333'],
+        hoverOffset: 4,
       },
     ],
   };
 
-  // Datos para la gráfica de Servidor 2
-  const server2Data = {
+  // Datos para la gráfica de pastel (Servidor 2)
+  const pieData = {
     labels: ['Info', 'Error'],
     datasets: [
       {
         label: 'Servidor 2',
         data: [logs.server2.info, logs.server2.error],
-        backgroundColor: ['#00ff00', '#ff3333'],
-        borderColor: ['#00cc00', '#cc0000'],
-        borderWidth: 1,
+        backgroundColor: ['#ea8bff', '#ff3333'],
+        hoverOffset: 4,
       },
     ],
   };
 
-  // Datos para la gráfica combinada
-  const combinedData = {
-    labels: ['Info', 'Error'],
-    datasets: [
-      {
-        label: 'Servidor 1',
-        data: [logs.server1.info, logs.server1.error],
-        backgroundColor: '#ea8bff', // Usamos tu color --primary
-        borderColor: '#b66dc6', // Usamos tu color --primary-hover
-        borderWidth: 1,
-      },
-      {
-        label: 'Servidor 2',
-        data: [logs.server2.info, logs.server2.error],
-        backgroundColor: '#aaaaaa', // Usamos tu color --text-muted
-        borderColor: '#888888',
-        borderWidth: 1,
-      },
-    ],
-  };
-
-  const options = {
+  const chartOptions = {
     responsive: true,
-    plugins: {
-      legend: {
-        position: 'top',
-        labels: {
-          color: '#ffffff', // Color del texto de la leyenda
-        },
-      },
-      title: {
-        display: true,
-        color: '#ffffff', // Color del título
-      },
-    },
-    scales: {
-      x: {
-        ticks: {
-          color: '#ffffff', // Color de las etiquetas del eje X
-        },
-        grid: {
-          color: '#3a3a3a', // Color de las líneas de la cuadrícula
-        },
-      },
-      y: {
-        ticks: {
-          color: '#ffffff', // Color de las etiquetas del eje Y
-          beginAtZero: true,
-        },
-        grid: {
-          color: '#3a3a3a', // Color de las líneas de la cuadrícula
-        },
-      },
-    },
+    maintainAspectRatio: false,
   };
 
   return (
     <div className="logs-container">
-      <h2>Logs de los Servidores</h2>
-      {error && <p className="error-message">{error}</p>}
+      <h2>Consulta de Logs</h2>
+      {loading ? (
+        <p>Cargando logs...</p>
+      ) : error ? (
+        <p className="error-message">{error}</p>
+      ) : (
+        <div className="logs-content">
+          <h3>Gráfica de Barras: Comparación de Logs</h3>
+          <div className="chart">
+            <Bar data={barData} options={chartOptions} />
+          </div>
 
-      <div className="chart">
-        <h3>Logs del Servidor 1</h3>
-        <Bar
-          data={server1Data}
-          options={{
-            ...options,
-            plugins: { ...options.plugins, title: { ...options.plugins.title, text: 'Logs del Servidor 1' } },
-          }}
-        />
-      </div>
+          <h3>Gráfica de Dona: Servidor 1</h3>
+          <div className="chart">
+            <Doughnut data={doughnutData} options={chartOptions} />
+          </div>
 
-      <div className="chart">
-        <h3>Logs del Servidor 2</h3>
-        <Bar
-          data={server2Data}
-          options={{
-            ...options,
-            plugins: { ...options.plugins, title: { ...options.plugins.title, text: 'Logs del Servidor 2' } },
-          }}
-        />
-      </div>
-
-      <div className="chart">
-        <h3>Logs Combinados</h3>
-        <Bar
-          data={combinedData}
-          options={{
-            ...options,
-            plugins: { ...options.plugins, title: { ...options.plugins.title, text: 'Logs Combinados' } },
-          }}
-        />
-      </div>
-
+          <h3>Gráfica de Pastel: Servidor 2</h3>
+          <div className="chart">
+            <Pie data={pieData} options={chartOptions} />
+          </div>
+        </div>
+      )}
       <div className="button-group">
-        <button onClick={() => window.location.href = '/home'}>Regresar al Inicio</button>
+        <button onClick={() => navigate('/home')}>Regresar al Home</button>
       </div>
     </div>
   );

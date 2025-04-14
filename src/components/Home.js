@@ -1,53 +1,59 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from '../api/axios';
 import '../styles.css';
 
 const Home = () => {
-  const [info, setInfo] = useState(null);
+  const navigate = useNavigate();
+  const [info, setInfo] = useState({ nodeVersion: '', student: { name: '', group: '' } });
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
   useEffect(() => {
     const fetchInfo = async () => {
       try {
-        const res = await axios.get('/getInfo');
-        console.log('Respuesta de /getInfo:', res.data);
-        setInfo(res.data);
+        const response = await axios.get('/getInfo');
+        setInfo(response.data);
+        setLoading(false);
       } catch (err) {
-        console.error('Error al obtener /getInfo:', err);
-        setError(err.response?.data?.error || 'Error al obtener la información');
+        setError('Error al cargar la información');
+        setLoading(false);
       }
     };
 
     fetchInfo();
   }, []);
 
-  console.log('Renderizando Home - Estado:', { info, error });
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/');
+  };
 
   return (
     <div className="home-container">
-      <h2>Bienvenido(a)</h2>
-      {error && <p className="error-message">{error}</p>}
-      {info ? (
-        <div className="info-card">
-          <h3>Información del Servidor</h3>
-          <p><strong>Versión de Node.js:</strong> {info.nodeVersion || 'No disponible'}</p>
-          <p><strong>Usuario:</strong> {info.student?.name || 'No disponible'}</p>
-          <p><strong>Grupo:</strong> {info.student?.group || 'No disponible'}</p>
-          <div className="button-group">
-            <button onClick={() => window.location.href = '/logs'}>Ver Logs</button>
-            <button
-              onClick={() => {
-                localStorage.removeItem('token');
-                window.location.href = '/';
-              }}
-            >
-              Cerrar Sesión
-            </button>
-          </div>
-        </div>
+      <h2>Bienvenida al Home</h2>
+      {loading ? (
+        <p>Cargando información...</p>
+      ) : error ? (
+        <p className="error-message">{error}</p>
       ) : (
-        <p className="info-message">Cargando información...</p>
+        <div className="info-card">
+          <h3>Información del Estudiante</h3>
+          <p>
+            <strong>Nombre:</strong> {info.student.name}
+          </p>
+          <p>
+            <strong>Grupo:</strong> {info.student.group}
+          </p>
+          <p>
+            <strong>Versión de Node.js:</strong> {info.nodeVersion}
+          </p>
+        </div>
       )}
+      <div className="button-group">
+        <button onClick={() => navigate('/logs')}>Ver Logs</button>
+        <button onClick={handleLogout}>Cerrar Sesión</button>
+      </div>
     </div>
   );
 };
