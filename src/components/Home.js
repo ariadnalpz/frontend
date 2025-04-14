@@ -7,8 +7,6 @@ const Home = () => {
   const navigate = useNavigate();
   const [data, setData] = useState(null);
   const [error, setError] = useState('');
-  const [server1Count, setServer1Count] = useState(0); // Contador para servidor-1
-  const [server2Count, setServer2Count] = useState(0); // Contador para servidor-2
 
   useEffect(() => {
     const fetchData = async () => {
@@ -20,25 +18,7 @@ const Home = () => {
       }
     };
 
-    const sendRequests = async () => {
-      for (let i = 1; i <= 150; i++) {
-        try {
-          const response = await axios.get('/getInfo');
-          // Revisamos la URL de la respuesta para contar en qué servidor se procesó
-          if (response.config.baseURL.includes('servidor1')) {
-            setServer1Count(prev => prev + 1);
-          } else if (response.config.baseURL.includes('servidor2')) {
-            setServer2Count(prev => prev + 1);
-          }
-          console.log(`Solicitud ${i} procesada en: ${response.config.baseURL}`);
-        } catch (err) {
-          console.error(`Error en solicitud ${i}:`, err.message);
-        }
-      }
-    };
-
-    fetchData(); // Carga inicial de datos
-    sendRequests(); // Envía las 150 solicitudes
+    fetchData();
   }, []);
 
   const handleLogout = () => {
@@ -94,17 +74,6 @@ const Home = () => {
           ) : (
             <p className="error-message">No se encontraron datos del usuario.</p>
           )}
-
-          {/* Mostrar conteo de solicitudes */}
-          <div className="info-card">
-            <h3>Conteo de Solicitudes</h3>
-            <p>
-              <strong>Solicitudes procesadas en Servidor 1:</strong> {server1Count}
-            </p>
-            <p>
-              <strong>Solicitudes procesadas en Servidor 2:</strong> {server2Count}
-            </p>
-          </div>
 
           <div className="button-group">
             <button onClick={() => navigate('/logs')}>Ver Logs</button>
