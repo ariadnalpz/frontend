@@ -11,8 +11,7 @@ const Home = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const email = localStorage.getItem('userEmail'); // Obtener el email del usuario
-        const response = await axios.get(`/getInfo${email ? `?email=${email}` : ''}`);
+        const response = await axios.get('/getInfo'); // Ya no enviamos el email en la query
         setData(response.data);
       } catch (err) {
         setError('Error al obtener los datos');
@@ -24,7 +23,7 @@ const Home = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('token');
-    localStorage.removeItem('userEmail'); // Limpiar el email al cerrar sesión
+    localStorage.removeItem('userEmail');
     navigate('/');
   };
 

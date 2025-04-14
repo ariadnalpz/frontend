@@ -20,7 +20,7 @@ const addInterceptors = (instance, serverName) => {
     });
 
     // No agregar el token para las rutas públicas
-    const publicRoutes = ['/recover-password', '/reset-password', '/login', '/verify-otp', '/register', '/getInfo', '/logs'];
+    const publicRoutes = ['/recover-password', '/reset-password', '/login', '/verify-otp', '/register'];
     const isPublicRoute = publicRoutes.some(route => config.url.includes(route));
 
     if (!isPublicRoute) {
@@ -50,12 +50,13 @@ const addInterceptors = (instance, serverName) => {
         message: error.message,
       });
 
-      // No redirigir en caso de 401 para rutas públicas
-      const publicRoutes = ['/recover-password', '/reset-password', '/login', '/verify-otp', '/register', '/getInfo', '/logs'];
+      // Redirigir en caso de 401 para rutas protegidas
+      const publicRoutes = ['/recover-password', '/reset-password', '/login', '/verify-otp', '/register'];
       const isPublicRoute = publicRoutes.some(route => error.config?.url.includes(route));
 
       if (error.response?.status === 401 && !isPublicRoute) {
         localStorage.removeItem('token');
+        localStorage.removeItem('userEmail');
         window.location.href = '/';
       }
 
