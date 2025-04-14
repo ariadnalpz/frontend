@@ -20,17 +20,23 @@ const Logs = () => {
   useEffect(() => {
     const fetchLogs = async () => {
       try {
+        console.log('Haciendo solicitud a /logs...'); // Depuración
         const response = await axios.get('/logs');
+        console.log('Respuesta de /logs:', response.data); // Depuración
         setLogs(response.data);
         setLoading(false);
       } catch (err) {
-        setError('Error al cargar los logs');
+        console.error('Error en fetchLogs:', err); // Depuración
+        setError(err.response?.data?.error || 'Error al cargar los logs');
         setLoading(false);
       }
     };
 
     fetchLogs();
   }, []);
+
+  // Depuración: Log del estado actual
+  console.log('Estado actual - loading:', loading, 'error:', error, 'logs:', logs);
 
   // Datos para la gráfica de barras
   const barData = {
@@ -84,7 +90,7 @@ const Logs = () => {
     <div className="logs-container">
       <h2>Consulta de Logs</h2>
       {loading ? (
-        <p>Cargando logs...</p>
+        <p style={{ color: '#ffffff' }}>Cargando logs...</p> // Color blanco para asegurar visibilidad
       ) : error ? (
         <p className="error-message">{error}</p>
       ) : (

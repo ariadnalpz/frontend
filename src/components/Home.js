@@ -12,11 +12,14 @@ const Home = () => {
   useEffect(() => {
     const fetchInfo = async () => {
       try {
+        console.log('Haciendo solicitud a /getInfo...'); // Depuración
         const response = await axios.get('/getInfo');
+        console.log('Respuesta de /getInfo:', response.data); // Depuración
         setInfo(response.data);
         setLoading(false);
       } catch (err) {
-        setError('Error al cargar la información');
+        console.error('Error en fetchInfo:', err); // Depuración
+        setError(err.response?.data?.error || 'Error al cargar la información');
         setLoading(false);
       }
     };
@@ -29,24 +32,27 @@ const Home = () => {
     navigate('/');
   };
 
+  // Depuración: Log del estado actual
+  console.log('Estado actual - loading:', loading, 'error:', error, 'info:', info);
+
   return (
     <div className="home-container">
       <h2>Bienvenida al Home</h2>
       {loading ? (
-        <p>Cargando información...</p>
+        <p style={{ color: '#ffffff' }}>Cargando información...</p> // Color blanco para asegurar visibilidad
       ) : error ? (
         <p className="error-message">{error}</p>
       ) : (
         <div className="info-card">
           <h3>Información del Estudiante</h3>
           <p>
-            <strong>Nombre:</strong> {info.student.name}
+            <strong>Nombre:</strong> {info.student.name || 'No disponible'}
           </p>
           <p>
-            <strong>Grupo:</strong> {info.student.group}
+            <strong>Grupo:</strong> {info.student.group || 'No disponible'}
           </p>
           <p>
-            <strong>Versión de Node.js:</strong> {info.nodeVersion}
+            <strong>Versión de Node.js:</strong> {info.nodeVersion || 'No disponible'}
           </p>
         </div>
       )}
