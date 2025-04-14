@@ -34,6 +34,7 @@ const Login = () => {
     try {
       const res = await axios.post('/verify-otp', { email, otp });
       localStorage.setItem('token', res.data.token);
+      localStorage.setItem('userEmail', email); // Guardamos el email del usuario
       setMessage('Inicio de sesión exitoso');
       setTimeout(() => navigate('/home'), 1000);
     } catch (err) {

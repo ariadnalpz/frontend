@@ -5,61 +5,85 @@ import '../styles.css';
 
 const Home = () => {
   const navigate = useNavigate();
-  const [info, setInfo] = useState({ nodeVersion: '', student: { name: '', group: '' } });
-  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState(null);
   const [error, setError] = useState('');
 
   useEffect(() => {
-    const fetchInfo = async () => {
+    const fetchData = async () => {
       try {
-        console.log('Haciendo solicitud a /getInfo...'); // Depuración
-        const response = await axios.get('/getInfo');
-        console.log('Respuesta de /getInfo:', response.data); // Depuración
-        setInfo(response.data);
-        setLoading(false);
+        const email = localStorage.getItem('userEmail'); // Obtener el email del usuario
+        const response = await axios.get(`/getInfo${email ? `?email=${email}` : ''}`);
+        setData(response.data);
       } catch (err) {
-        console.error('Error en fetchInfo:', err); // Depuración
-        setError(err.response?.data?.error || 'Error al cargar la información');
-        setLoading(false);
+        setError('Error al obtener los datos');
       }
     };
 
-    fetchInfo();
+    fetchData();
   }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('userEmail'); // Limpiar el email al cerrar sesión
     navigate('/');
   };
 
-  // Depuración: Log del estado actual
-  console.log('Estado actual - loading:', loading, 'error:', error, 'info:', info);
-
   return (
     <div className="home-container">
-      <h2>Bienvenida al Home</h2>
-      {loading ? (
-        <p style={{ color: '#ffffff' }}>Cargando información...</p> // Color blanco para asegurar visibilidad
-      ) : error ? (
-        <p className="error-message">{error}</p>
+      <h2>Bienvenido/a</h2>
+
+      {error && <p className="error-message">{error}</p>}
+
+      {data ? (
+        <>
+          {/* Información del Estudiante */}
+          <div className="info-card">
+            <h3>Información del Estudiante</h3>
+            <p>
+              <strong>Nombre:</strong> {data.student.name}
+            </p>
+            <p>
+              <strong>Grupo:</strong> {data.student.group}
+            </p>
+            <p>
+              <strong>Versión de Node:</strong> {data.nodeVersion}
+            </p>
+          </div>
+
+          {/* Información del Profesor */}
+          <div className="info-card">
+            <h3>Información del Profesor</h3>
+            <p>
+              <strong>Nombre:</strong> M.C.C Emmanuel Martínez Hernández
+            </p>
+          </div>
+
+          {/* Información del Usuario Logueado */}
+          {data.user ? (
+            <div className="info-card">
+              <h3>Información del Usuario</h3>
+              <p>
+                <strong>Nombre:</strong> {data.user.username}
+              </p>
+              <p>
+                <strong>Grado:</strong> {data.user.grado}
+              </p>
+              <p>
+                <strong>Grupo:</strong> {data.user.grupo}
+              </p>
+            </div>
+          ) : (
+            <p className="error-message">No se encontraron datos del usuario.</p>
+          )}
+
+          <div className="button-group">
+            <button onClick={() => navigate('/logs')}>Ver Logs</button>
+            <button onClick={handleLogout}>Cerrar Sesión</button>
+          </div>
+        </>
       ) : (
-        <div className="info-card">
-          <h3>Información del Estudiante</h3>
-          <p>
-            <strong>Nombre:</strong> {info.student.name || 'No disponible'}
-          </p>
-          <p>
-            <strong>Grupo:</strong> {info.student.group || 'No disponible'}
-          </p>
-          <p>
-            <strong>Versión de Node.js:</strong> {info.nodeVersion || 'No disponible'}
-          </p>
-        </div>
+        <p>Cargando...</p>
       )}
-      <div className="button-group">
-        <button onClick={() => navigate('/logs')}>Ver Logs</button>
-        <button onClick={handleLogout}>Cerrar Sesión</button>
-      </div>
     </div>
   );
 };
